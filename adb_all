@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+function each_device {
+	adb devices | tail -n +2 | grep -v "^$" | cut -d$'\t' -f1
+}
+export -f each_device
+
+function adb_all {
+	for device in `each_device`; do
+		adb -s ${device} $@
+	done
+}
+
+adb_all $@
